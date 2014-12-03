@@ -27,13 +27,11 @@ k = 0;                      % variable to count number of iterations required to
 for j = 1:100        % If too many iterations, stop and change initial guess
     
     k = k + 1;              % count number of iterations performed
-    
     y3(1) = s;              % set initial guess
     
     for i=1:(length(x)-1)
     
-        % Solve for Runge-Kutta Constants and calculate again
-    
+        % Solve for Runge-Kutta Constants and calculate
         k1_y1 = y2(i) * h;
         k1_y2 = y3(i) * h;
         k1_y3 = -y1(i) * y3(i) * h;
@@ -53,7 +51,6 @@ for j = 1:100        % If too many iterations, stop and change initial guess
         y1(i+1) = y1(i) + (1/6) * (k1_y1 + 2*k2_y1 + 2*k3_y1 + k4_y1) * h;
         y2(i+1) = y2(i) + (1/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2) * h;
         y3(i+1) = y3(i) + (1/6) * (k1_y3 + 2*k2_y3 + 2*k3_y3 + k4_y3) * h;
-    
     end
     
     e1 = y2(length(x));     % store final value of first y2
@@ -62,7 +59,6 @@ for j = 1:100        % If too many iterations, stop and change initial guess
     for i=1:(length(x)-1)   
 
         % Solve for Runge-Kutta Constants and calculate again
-    
         k1_y1 = y2(i) * h;
         k1_y2 = y3(i) * h;
         k1_y3 = -y1(i) * y3(i) * h;
@@ -82,13 +78,11 @@ for j = 1:100        % If too many iterations, stop and change initial guess
         y1(i+1) = y1(i) + (1/6) * (k1_y1 + 2*k2_y1 + 2*k3_y1 + k4_y1) * h;
         y2(i+1) = y2(i) + (1/6) * (k1_y2 + 2*k2_y2 + 2*k3_y2 + k4_y2) * h;
         y3(i+1) = y3(i) + (1/6) * (k1_y3 + 2*k2_y3 + 2*k3_y3 + k4_y3) * h;
-    
     end
 
     e2 = y2(length(x));     % store final value of second y2
     
     s = s - (e1-1)/((e2-e1)/ds);    % recompute the initial guess using Newton-Raphson method
-    
     error = abs(e1-1);  
     
     % Plot current values for y1, y2, and y3
@@ -97,7 +91,6 @@ for j = 1:100        % If too many iterations, stop and change initial guess
     hold off
     
     if error < eps      % check if with pre-determined tolerance
-        
         fprintf('Number of Iterations = %d \nFinal Error = %4.15f \n\n',k,error);
         
         % add title, line, and labels
@@ -106,20 +99,12 @@ for j = 1:100        % If too many iterations, stop and change initial guess
         line('XData', [0 8], 'YData', [1 1], 'LineStyle', '-', 'LineWidth', 2, 'Color','m')
         legend('F','F''','F''''')
         
-        break
-        
+        break 
     end
-    
-    
-    
 end
-
 
 if j > 100
-    
     fprintf('Too many iterations required, adjust initial guess and try again\n\n');
-    
 end
 
-
-
+toc
