@@ -4,9 +4,10 @@ clc;
 
 tic         % start clock
 
-h = 0.1;           % R-K step size
-x = 0:h:8;         % calculate x values
-eps = 0.00001;      % epsilon, given
+h = .1;           % R-K step size
+inf = 8;      % given value for approximating infinity
+x = 0:h:inf;         % calculate x values
+eps = 0.00000000001;      % epsilon, given
 e1 = 0;             % initialize error
 e2 = 0;             % initialize error
 ds = 0.001;          % Newton-Raphson step size
@@ -96,9 +97,16 @@ for j = 1:100        % If too many iterations, stop and change initial guess
         % add title, line, and labels
         title({'Determining the Flow of Fluid over a Flat Plate Numerically', 'using 4th Order Runge-Kutta and the Shooting Method'})
         xlabel('\eta')
-        line('XData', [0 8], 'YData', [1 1], 'LineStyle', '-', 'LineWidth', 2, 'Color','m')
-        legend('F','F''','F''''')
-        
+        line('XData', [0 200], 'YData', [1 1], 'LineStyle', '-', 'LineWidth', 2, 'Color','m')
+        axis([0 inf 0 1.4]);
+        legend('f','f''','f''''','Location','northwest');
+        text(0.2,.96,['\epsilon = ' num2str(eps,'%4.3e')]);
+        text(0.2,.90,['\deltax = ' num2str(h,'%4.3f')]);
+        text(0.2,.84,['f''(\infty) \approx f''(' num2str(inf,'%4.3f') ')'])
+        [t_delta,t_ind] = min(abs(y2-0.99));        % Find index of number closest to 0.99
+        neareta = t_ind * h;
+        text(0.2,.78,['f''(\eta) \approx 0.99, \eta = ' num2str(neareta,'%4.3f')])
+        text(0.2,.72,['Number of Iterations = ' num2str(k)]);
         break 
     end
 end
